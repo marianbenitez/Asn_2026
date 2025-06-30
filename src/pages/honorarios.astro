@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Honorarios Mínimos - Asociación Sanjuanina de Nutrición">
+  <h1 class="text-3xl font-bold mb-4">Honorarios Mínimos Sugeridos</h1>
+  <p>A continuación, se presenta la tabla de honorarios mínimos sugeridos para los profesionales de la nutrición en San Juan.</p>
+
+  <div class="mt-8 overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr>
+          <th class="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Práctica</th>
+          <th class="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">Consulta Nutricional</td>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">$5.000</td>
+        </tr>
+        <tr>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">Plan de Alimentación Personalizado</td>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">$8.000</td>
+        </tr>
+        <tr>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">Seguimiento Mensual</td>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">$12.000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</Layout>

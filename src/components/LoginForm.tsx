@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const LoginForm: React.FC = () => {
+  const API_URL = import.meta.env.PUBLIC_API_URL;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -18,7 +19,7 @@ const LoginForm: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://localhost/api-asn/login', {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

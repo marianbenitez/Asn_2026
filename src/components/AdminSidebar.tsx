@@ -24,7 +24,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
       <div className="p-4 border-b border-gray-700 flex-shrink-0">
         <div className="flex items-center justify-between">
           {!isCollapsed && (
-            <h2 className="text-xl font-bold text-blue-400">Admin Panel</h2>
+            <h2 className="text-xl font-bold" style={{ color: '#ff7b00' }}>Admin Panel</h2>
           )}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -43,8 +43,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
             key={item.id}
             onClick={() => onSectionChange(item.id)}
             className={`w-full flex items-center px-4 py-3 text-left hover:bg-gray-700 transition-colors ${
-              activeSection === item.id ? 'bg-blue-600 border-r-4 border-blue-400' : ''
+              activeSection === item.id ? 'border-r-4' : ''
             }`}
+            style={{
+              backgroundColor: activeSection === item.id ? '#ff7b00' : 'transparent',
+              borderRightColor: activeSection === item.id ? '#ff7b00' : 'transparent'
+            }}
             title={isCollapsed ? item.label : ''}
           >
             <span className="text-xl mr-3 flex-shrink-0">{item.icon}</span>
@@ -60,7 +64,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
         {!isCollapsed ? (
           <div className="bg-gray-800 rounded-lg p-3">
             <div className="flex items-center">
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#ff7b00' }}>
                 <span className="text-white font-bold">A</span>
               </div>
               <div className="ml-3 min-w-0">
@@ -76,7 +80,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
           </div>
         ) : (
           <div className="flex justify-center">
-            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#ff7b00' }}>
               <span className="text-white font-bold text-sm">A</span>
             </div>
           </div>

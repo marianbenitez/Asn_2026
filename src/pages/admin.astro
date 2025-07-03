@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Admin Dashboard - Asociación Sanjuanina de Nutrición">
+  <div id="admin-dashboard-root" class="min-h-screen bg-gray-100"></div>
+</Layout>
+
+<script>
+  import React, { useState } from 'https://esm.sh/react@19.1.0';
+  import { createRoot } from 'https://esm.sh/react-dom@19.1.0/client';
+
+  // Import components inline to avoid module issues
+  const AdminSidebar = ({ activeSection, onSectionChange }) => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
+    const menuItems = [
+      { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+      { id: 'users', label: 'Usuarios', icon: '👥' },
+      { id: 'members', label: 'Socios', icon: '🏆' },
+      { id: 'payments', label: 'Pagos', icon: '💳' },
+      { id: 'content', label: 'Contenido', icon: '📝' },
+      { id: 'reports', label: 'Reportes', icon: '📈' },
+      { id: 'settings', label: 'Configuración', icon: '⚙️' },
+    ];
+
+    return React.createElement('div', { 
+      className: `bg-gray-900 text-white transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} min-h-screen` 
+    },
+      // Header
+      React.createElement('div', { className: 'p-4 border-b border-gray-700' },
+        React.createElement('div', { className: 'flex items-center justify-between' },
+          !isCollapsed && React.createElement('h2', { className: 'text-xl font-bold text-blue-400' }, 'Admin Panel'),
+          React.createElement('button', {
+            onClick: () => setIsCollapsed(!isCollapsed),
+            className: 'p-2 rounded-lg hover:bg-gray-700 transition-colors'
+          }, isCollapsed ? '→' : '←')
+        )
+      ),
+      
+      // Menu Items
+      React.createElement('nav', { className: 'mt-6' },
+        menuItems.map((item) =>
+          React.createElement('button', {
+            key: item.id,
+            onClick: () => onSectionChange(item.id),
+            className: `w-full flex items-center px-4 py-3 text-left hover:bg-gray-700 transition-colors ${
+              activeSection === item.id ? 'bg-blue-600 border-r-4 border-blue-400' : ''
+            }`
+          },
+            React.createElement('span', { className: 'text-xl mr-3' }, item.icon),
+            !isCollapsed && React.createElement('span', { className: 'font-medium' }, item.label)
+          )
+        )
+      ),
+      
+      // User Info
+      !isCollapsed && React.createElement('div', { className: 'absolute bottom-4 left-4 right-4' },
+        React.createElement('div', { className: 'bg-gray-800 rounded-lg p-3' },
+          React.createElement('div', { className: 'flex items-center' },
+            React.createElement('div', { className: 'w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center' },
+              React.createElement('span', { className: 'text-white font-bold' }, 'A')
+            ),
+            React.createElement('div', { className: 'ml-3' },
+              React.createElement('p', { className: 'text-sm font-medium' }, 'Admin'),
+              React.createElement('p', { className: 'text-xs text-gray-400' }, 'Administrador')
+            )
+          )
+        )
+      )
+    );
+  };
+
+  const DashboardOverview = () => {
+    const stats = [
+      { label: 'Total Usuarios', value: '1,234', change: '+12%', icon: '👥', color: 'blue' },
+      { label: 'Socios Activos', value: '856', change: '+8%', icon: '🏆', color: 'green' },
+      { label: 'Pagos del Mes', value: '$45,230', change: '+15%', icon: '💰', color: 'yellow' },
+      { label: 'Nuevos Registros', value: '23', change: '+5%', icon: '📈', color: 'purple' },
+    ];
+
+    const recentActivities = [
+      { id: 1, action: 'Nuevo usuario registrado', user: 'María González', time: 'Hace 5 min' },
+      { id: 2, action: 'Pago procesado', user: 'Carlos López', time: 'Hace 15 min' },
+      { id: 3, action: 'Solicitud de asociación', user: 'Ana Martínez', time: 'Hace 30 min' },
+      { id: 4, action: 'Actualización de perfil', user: 'Luis Rodríguez', time: 'Hace 1 hora' },
+    ];
+
+    const getColorClasses = (color) => {
+      const colors = {
+        blue: 'bg-blue-500 text-blue-100',
+        green: 'bg-green-500 text-green-100',
+        yellow: 'bg-yellow-500 text-yellow-100',
+        purple: 'bg-purple-500 text-purple-100',
+      };
+      return colors[color] || colors.blue;
+    };
+
+    return React.createElement('div', { className: 'space-y-6' },
+      // Header
+      React.createElement('div', { className: 'flex justify-between items-center' },
+        React.createElement('h1', { className: 'text-3xl font-bold text-gray-800' }, 'Dashboard'),
+        React.createElement('div', { className: 'text-sm text-gray-600' },
+          'Última actualización: ', new Date().toLocaleString()
+        )
+      ),
+
+      // Stats Cards
+      React.createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6' },
+        stats.map((stat, index) =>
+          React.createElement('div', { 
+            key: index, 
+            className: 'bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500' 
+          },
+            React.createElement('div', { className: 'flex items-center justify-between' },
+              React.createElement('div', null,
+                React.createElement('p', { className: 'text-sm font-medium text-gray-600' }, stat.label),
+                React.createElement('p', { className: 'text-2xl font-bold text-gray-900' }, stat.value),
+                React.createElement('p', { className: 'text-sm text-green-600 font-medium' }, stat.change)
+              ),
+              React.createElement('div', { 
+                className: `w-12 h-12 rounded-full flex items-center justify-center ${getColorClasses(stat.color)}` 
+              },
+                React.createElement('span', { className: 'text-xl' }, stat.icon)
+              )
+            )
+          )
+        )
+      ),
+
+      // Charts and Activities
+      React.createElement('div', { className: 'grid grid-cols-1 lg:grid-cols-2 gap-6' },
+        // Chart Placeholder
+        React.createElement('div', { className: 'bg-white rounded-lg shadow-md p-6' },
+          React.createElement('h3', { className: 'text-lg font-semibold mb-4' }, 'Registros por Mes'),
+          React.createElement('div', { className: 'h-64 bg-gray-100 rounded-lg flex items-center justify-center' },
+            React.createElement('div', { className: 'text-center' },
+              React.createElement('div', { className: 'text-4xl mb-2' }, '📊'),
+              React.createElement('p', { className: 'text-gray-600' }, 'Gráfico de registros mensuales'),
+              React.createElement('p', { className: 'text-sm text-gray-500' }, 'Integración con Chart.js pendiente')
+            )
+          )
+        ),
+
+        // Recent Activities
+        React.createElement('div', { className: 'bg-white rounded-lg shadow-md p-6' },
+          React.createElement('h3', { className: 'text-lg font-semibold mb-4' }, 'Actividad Reciente'),
+          React.createElement('div', { className: 'space-y-4' },
+            recentActivities.map((activity) =>
+              React.createElement('div', { 
+                key: activity.id, 
+                className: 'flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors' 
+              },
+                React.createElement('div', { className: 'w-2 h-2 bg-blue-500 rounded-full mt-2' }),
+                React.createElement('div', { className: 'flex-1' },
+                  React.createElement('p', { className: 'text-sm font-medium text-gray-900' }, activity.action),
+                  React.createElement('p', { className: 'text-sm text-gray-600' }, activity.user),
+                  React.createElement('p', { className: 'text-xs text-gray-500' }, activity.time)
+                )
+              )
+            )
+          ),
+          React.createElement('button', { className: 'w-full mt-4 text-blue-600 hover:text-blue-800 text-sm font-medium' },
+            'Ver todas las actividades →'
+          )
+        )
+      )
+    );
+  };
+
+  const AdminDashboard = () => {
+    const [activeSection, setActiveSection] = useState('dashboard');
+
+    const renderContent = () => {
+      switch (activeSection) {
+        case 'dashboard':
+          return React.createElement(DashboardOverview);
+        case 'users':
+          return React.createElement('div', { className: 'p-8 text-center' },
+            React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, 'Gestión de Usuarios'),
+            React.createElement('p', { className: 'text-gray-600' }, 'Funcionalidad en desarrollo...')
+          );
+        case 'members':
+          return React.createElement('div', { className: 'p-8 text-center' },
+            React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, 'Gestión de Socios'),
+            React.createElement('p', { className: 'text-gray-600' }, 'Funcionalidad en desarrollo...')
+          );
+        case 'payments':
+          return React.createElement('div', { className: 'p-8 text-center' },
+            React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, 'Gestión de Pagos'),
+            React.createElement('p', { className: 'text-gray-600' }, 'Funcionalidad en desarrollo...')
+          );
+        case 'settings':
+          return React.createElement('div', { className: 'p-8 text-center' },
+            React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, 'Configuración'),
+            React.createElement('p', { className: 'text-gray-600' }, 'Funcionalidad en desarrollo...')
+          );
+        default:
+          return React.createElement(DashboardOverview);
+      }
+    };
+
+    return React.createElement('div', { className: 'flex min-h-screen bg-gray-100' },
+      React.createElement(AdminSidebar, {
+        activeSection,
+        onSectionChange: setActiveSection
+      }),
+      React.createElement('div', { className: 'flex-1 p-8' },
+        renderContent()
+      )
+    );
+  };
+
+  // Render the component
+  const root = createRoot(document.getElementById('admin-dashboard-root'));
+  root.render(React.createElement(AdminDashboard));
+</script>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  main {
+    padding: 0 !important;
+  }
+</style>

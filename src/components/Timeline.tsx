@@ -16,34 +16,38 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
   return (
     <div className="relative">
       {/* Línea vertical principal */}
-      <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-green-500"></div>
+      <div className="absolute left-8 top-0 bottom-0 w-0.5" style={{ background: 'linear-gradient(to bottom, #ff7b00, #ff9500)' }}></div>
       
       <div className="space-y-8">
         {steps.map((step, index) => (
           <div key={step.id} className="relative flex items-start">
             {/* Círculo del paso */}
             <div className={`
-              relative z-10 flex items-center justify-center w-16 h-16 rounded-full border-4 
+              relative z-10 flex items-center justify-center w-16 h-16 rounded-full border-4 shadow-lg transition-all duration-300 hover:scale-110
               ${step.isCompleted 
                 ? 'bg-green-500 border-green-500 text-white' 
-                : 'bg-white border-blue-500 text-blue-500'
+                : 'bg-white text-white'
               }
-              shadow-lg transition-all duration-300 hover:scale-110
-            `}>
+            `}
+            style={{
+              backgroundColor: step.isCompleted ? '#22c55e' : '#ff7b00',
+              borderColor: step.isCompleted ? '#22c55e' : '#ff7b00'
+            }}>
               <span className="text-2xl font-bold">{step.icon}</span>
             </div>
             
             {/* Contenido del paso */}
             <div className="ml-8 flex-1">
               <div className={`
-                bg-white rounded-lg shadow-md p-6 border-l-4 
-                ${step.isCompleted ? 'border-green-500' : 'border-blue-500'}
-                transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1
-              `}>
-                <h3 className={`
-                  text-xl font-bold mb-2 
-                  ${step.isCompleted ? 'text-green-700' : 'text-blue-700'}
-                `}>
+                bg-white rounded-lg shadow-md p-6 border-l-4 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1
+              `}
+              style={{
+                borderLeftColor: step.isCompleted ? '#22c55e' : '#ff7b00'
+              }}>
+                <h3 className={`text-xl font-bold mb-2`}
+                style={{
+                  color: step.isCompleted ? '#15803d' : '#ff7b00'
+                }}>
                   {step.title}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -67,9 +71,9 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
       
       {/* Decoración final */}
       <div className="relative mt-8">
-        <div className="absolute left-8 w-0.5 h-8 bg-gradient-to-b from-green-500 to-transparent"></div>
+        <div className="absolute left-8 w-0.5 h-8" style={{ background: 'linear-gradient(to bottom, #ff7b00, transparent)' }}></div>
         <div className="flex items-center justify-center ml-8">
-          <div className="bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-full shadow-lg">
+          <div className="text-white px-6 py-3 rounded-full shadow-lg" style={{ background: 'linear-gradient(135deg, #ff7b00 0%, #ff9500 100%)' }}>
             <span className="font-bold">¡Bienvenido a la Asociación!</span>
           </div>
         </div>

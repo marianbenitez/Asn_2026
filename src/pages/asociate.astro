@@ -44,7 +44,7 @@ const timelineSteps = [
 <Layout title="Asociate - Asociación Sanjuanina de Nutrición">
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold mb-4 text-gray-800">Únete a Nuestra Asociación</h1>
+      <h1 class="text-4xl font-bold mb-4" style="color: #ff7b00;">Únete a Nuestra Asociación</h1>
       <p class="text-xl text-gray-600 leading-relaxed">
         ¡Forma parte de nuestra comunidad de profesionales de la nutrición! 
         Sigue estos pasos para convertirte en socio de la Asociación Sanjuanina de Nutrición.
@@ -52,28 +52,28 @@ const timelineSteps = [
     </div>
 
     <!-- Beneficios destacados -->
-    <div class="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-8 mb-12 border border-blue-200">
-      <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Beneficios de ser Socio</h2>
+    <div class="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-8 mb-12 border" style="border-color: #ff7b00;">
+      <h2 class="text-2xl font-bold mb-4 text-center" style="color: #ff7b00;">Beneficios de ser Socio</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="text-center">
-          <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #ff7b00;">
             <span class="text-xl">🎓</span>
           </div>
-          <h3 class="font-semibold mb-2">Capacitación Continua</h3>
+          <h3 class="font-semibold mb-2" style="color: #ff7b00;">Capacitación Continua</h3>
           <p class="text-sm text-gray-600">Acceso a cursos, talleres y conferencias especializadas</p>
         </div>
         <div class="text-center">
-          <div class="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #ff7b00;">
             <span class="text-xl">🤝</span>
           </div>
-          <h3 class="font-semibold mb-2">Red Profesional</h3>
+          <h3 class="font-semibold mb-2" style="color: #ff7b00;">Red Profesional</h3>
           <p class="text-sm text-gray-600">Conecta con otros profesionales de la nutrición</p>
         </div>
         <div class="text-center">
-          <div class="bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style="background-color: #ff7b00;">
             <span class="text-xl">📊</span>
           </div>
-          <h3 class="font-semibold mb-2">Recursos Exclusivos</h3>
+          <h3 class="font-semibold mb-2" style="color: #ff7b00;">Recursos Exclusivos</h3>
           <p class="text-sm text-gray-600">Acceso a investigaciones y material científico actualizado</p>
         </div>
       </div>
@@ -81,13 +81,13 @@ const timelineSteps = [
 
     <!-- Línea de tiempo del proceso -->
     <div class="mb-12">
-      <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Proceso de Asociación</h2>
+      <h2 class="text-3xl font-bold mb-8 text-center" style="color: #ff7b00;">Proceso de Asociación</h2>
       <Timeline steps={timelineSteps} client:load />
     </div>
 
     <!-- Información adicional -->
-    <div class="bg-white rounded-lg shadow-md p-8 border-l-4 border-blue-500">
-      <h2 class="text-2xl font-bold mb-4 text-gray-800">Información Importante</h2>
+    <div class="bg-white rounded-lg shadow-md p-8 border-l-4" style="border-left-color: #ff7b00;">
+      <h2 class="text-2xl font-bold mb-4" style="color: #ff7b00;">Información Importante</h2>
       <div class="space-y-4 text-gray-600">
         <p>
           <strong>Requisitos:</strong> Título universitario en Nutrición o Licenciatura en Nutrición, 
@@ -101,7 +101,7 @@ const timelineSteps = [
         </p>
         <p>
           <strong>Contacto:</strong> Para consultas adicionales, escríbenos a 
-          <a href="mailto:info@sanjuanutricion.org.ar" class="text-blue-600 hover:underline ml-1">
+          <a href="mailto:info@sanjuanutricion.org.ar" class="hover:underline ml-1" style="color: #ff7b00;">
             info@sanjuanutricion.org.ar
           </a>
         </p>
@@ -112,7 +112,8 @@ const timelineSteps = [
     <div class="text-center mt-12">
       <a 
         href="mailto:info@sanjuanutricion.org.ar?subject=Solicitud de Formulario de Asociación" 
-        class="inline-flex items-center bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+        class="inline-flex items-center text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+        style="background: linear-gradient(135deg, #ff7b00 0%, #ff9500 100%);"
       >
         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

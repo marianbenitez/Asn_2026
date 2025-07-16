@@ -39,7 +39,10 @@ export function useAuth() {
         return { success: false, error: response.message };
       }
     } catch (err) {
-      const errorMessage = 'Error de conexión: ' + err.message;
+      let errorMessage = 'Error de conexión';
+      if (err instanceof Error) {
+        errorMessage += ': ' + err.message;
+      }
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {

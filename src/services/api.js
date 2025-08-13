@@ -1,35 +1,66 @@
-// src/services/api.js - Versión simplificada sin archivo env.ts
+// src/services/api.js
+import { getConfig } from '../config/environment.js';
 
-// Verificar que las variables de entorno estén disponibles
-console.log('Environment variables:', {
-  PUBLIC_API_URL: import.meta.env.PUBLIC_API_URL,
-  PUBLIC_DEBUG: import.meta.env.PUBLIC_DEBUG
-});
-
-const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080/api';
-const DEBUG = import.meta.env.PUBLIC_DEBUG === 'true' || false;
+const config = getConfig();
+const API_URL = config.API_URL;
+const DEBUG = config.DEBUG;
 
 class ApiService {
   constructor() {
     this.baseURL = API_URL;
     this.debug = DEBUG;
+    this.authToken = null;
+  }
+
+  // Método para configurar token de autorización
+  setAuthToken(token) {
+    this.authToken = token;
+  }
+
+  // Método para cargar token desde localStorage
+  loadToken() {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      this.authToken = token;
+    }
+    return token;
   }
 
   async request(endpoint, options = {}) {
     try {
-      const response = await fetch(`${this.baseURL}${endpoint}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
+      const url = `${this.baseURL}${endpoint}`;
+      
+      // Agregar token de autorización si existe
+      const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      };
+
+      if (this.authToken) {
+        headers['Authorization'] = `Bearer ${this.authToken}`;
+      }
+      
+      if (this.debug) {
+        console.log('Making request to:', url, { ...options, headers });
+      }
+      
+      const response = await fetch(url, {
         ...options,
+        headers,
       });
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       
-      return await response.json();
+      const data = await response.json();
+      
+      if (this.debug) {
+        console.log('Response received:', data);
+      }
+      
+      return data;
     } catch (error) {
       if (this.debug) {
         console.error('API Error:', error);
@@ -63,15 +94,20 @@ class ApiService {
   // Métodos específicos para autenticación
   async login(credentials) {
     try {
-      const response = await this.post('/auth/login', credentials);
+      const response = await this.post('/login', credentials);
       
-      // Si el login es exitoso, puedes guardar el token
+      // Si el login es exitoso, guardar el token
       if (response.token) {
-        // Guardar token en localStorage o sessionStorage si es necesario
-        // localStorage.setItem('authToken', response.token);
+        localStorage.setItem('authToken', response.token);
+        this.setAuthToken(response.token);
       }
       
-      return response;
+      return {
+        success: true,
+        message: response.message,
+        token: response.token,
+        user: response.user || null
+      };
     } catch (error) {
       if (this.debug) {
         console.error('Login error:', error);
@@ -82,12 +118,11 @@ class ApiService {
 
   async logout() {
     try {
-      const response = await this.post('/auth/logout');
-      
       // Limpiar token almacenado
-      // localStorage.removeItem('authToken');
+      localStorage.removeItem('authToken');
+      this.setAuthToken(null);
       
-      return response;
+      return { success: true, message: 'Logout successful' };
     } catch (error) {
       if (this.debug) {
         console.error('Logout error:', error);
@@ -98,7 +133,7 @@ class ApiService {
 
   async register(userData) {
     try {
-      return await this.post('/auth/register', userData);
+      return await this.post('/users', userData);
     } catch (error) {
       if (this.debug) {
         console.error('Register error:', error);
@@ -107,52 +142,75 @@ class ApiService {
     }
   }
 
-  // Método para configurar token de autorización
-  setAuthToken(token) {
-    this.authToken = token;
+  // Métodos de testing
+  async testConnection() {
+    return this.get('/test');
   }
 
-  // Sobrescribir el método request para incluir token de autorización
-  async request(endpoint, options = {}) {
-    try {
-      const url = `${this.baseURL}${endpoint}`;
-      
-      // Agregar token de autorización si existe
-      const headers = {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      };
+  async testProtected() {
+    return this.get('/test/protected');
+  }
 
-      if (this.authToken) {
-        headers['Authorization'] = `Bearer ${this.authToken}`;
+  async getUsers() {
+    return this.get('/users');
+  }
+
+  // Métodos para noticias
+  async getNews(page = 1, limit = 10, search = '') {
+    const params = new URLSearchParams();
+    if (page) params.append('page', page);
+    if (limit) params.append('limit', limit);
+    if (search) params.append('search', search);
+    
+    return this.get(`/news?${params.toString()}`);
+  }
+
+  async getFeaturedNews(limit = 3) {
+    return this.get(`/news/featured?limit=${limit}`);
+  }
+
+  async getRecentNews(limit = 5) {
+    return this.get(`/news/recent?limit=${limit}`);
+  }
+
+  async getNewsDetail(slug) {
+    return this.get(`/news/${slug}`);
+  }
+
+  // Métodos de administración de noticias (requieren autenticación)
+  async getAdminNews(page = 1, limit = 10, search = '') {
+    const params = new URLSearchParams();
+    if (page) params.append('page', page);
+    if (limit) params.append('limit', limit);
+    if (search) params.append('search', search);
+    
+    return this.get(`/admin/news?${params.toString()}`);
+  }
+
+  async createNews(formData) {
+    // Para subir archivos, no usar JSON
+    return this.request('/admin/news', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        // No establecer Content-Type para FormData
+        'Authorization': this.authToken ? `Bearer ${this.authToken}` : undefined
       }
-      
-      if (this.debug) {
-        console.log('Making request to:', url, { ...options, headers });
+    });
+  }
+
+  async updateNews(id, formData) {
+    return this.request(`/admin/news/${id}`, {
+      method: 'PUT',
+      body: formData,
+      headers: {
+        'Authorization': this.authToken ? `Bearer ${this.authToken}` : undefined
       }
-      
-      const response = await fetch(url, {
-        ...options,
-        headers,
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      
-      if (this.debug) {
-        console.log('Response received:', data);
-      }
-      
-      return data;
-    } catch (error) {
-      if (this.debug) {
-        console.error('API Error:', error);
-      }
-      throw error;
-    }
+    });
+  }
+
+  async deleteNews(id) {
+    return this.delete(`/admin/news/${id}`);
   }
 }
 

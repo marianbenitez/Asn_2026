@@ -1,38 +1,64 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import AsociacionInfo from "../components/AsociacionInfo";
+import EstadisticasAsociacion from "../components/EstadisticasAsociacion";
+import ContactoAsociacion from "../components/ContactoAsociacion";
+import JuntaDirectiva from "../components/JuntaDirectiva";
+import EventosFuturos from "../components/EventosFuturos";
 ---
 
 <Layout title="Conocenos - Asociación Sanjuanina de Nutrición">
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl font-bold mb-6 text-center" style="color: #ff7b00;">Conocenos</h1>
-    
-    <div class="bg-white rounded-lg shadow-md p-8 mb-8 border-l-4" style="border-left-color: #ff7b00;">
-      <h2 class="text-2xl font-bold mb-4" style="color: #ff7b00;">Nuestra Misión</h2>
-      <p class="text-gray-700 leading-relaxed mb-4">
-        Somos una asociación de profesionales de la nutrición comprometidos con la salud de la comunidad de San Juan.
-      </p>
-      <p class="text-gray-700 leading-relaxed">
-        Nuestra misión es promover la alimentación saludable y el bienestar a través de la educación, la investigación y el trabajo conjunto con otras instituciones.
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold mb-6" style="color: #ff7b00;">Conocenos</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Somos la Asociación Sanjuanina de Nutrición (ASN), una organización
+        comprometida con la excelencia profesional y el bienestar de la
+        comunidad de San Juan a través de la nutrición.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bg-white rounded-lg shadow-md p-6 border-l-4" style="border-left-color: #ff7b00;">
-        <h3 class="text-xl font-bold mb-3" style="color: #ff7b00;">Nuestra Visión</h3>
-        <p class="text-gray-700">
-          Ser la organización líder en nutrición de San Juan, reconocida por su excelencia profesional y compromiso con la salud comunitaria.
-        </p>
+    <!-- Información de la Asociación -->
+    <AsociacionInfo client:load />
+
+    <!-- Estadísticas y Logros -->
+    <EstadisticasAsociacion client:load />
+
+    <!-- Junta Directiva y Estructura Organizacional -->
+    <JuntaDirectiva client:load />
+
+    <!-- Eventos Futuros -->
+    <EventosFuturos client:load />
+
+    <!-- Contacto y Navegación -->
+    <ContactoAsociacion client:load />
+
+    <!-- Call to Action -->
+    <section
+      class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg shadow-lg p-8 text-white text-center mt-12"
+    >
+      <h2 class="text-3xl font-bold mb-4">
+        ¿Te gustaría formar parte de nuestra asociación?
+      </h2>
+      <p class="text-xl mb-6 text-orange-100">
+        Únete a nuestra comunidad de profesionales y contribuye al desarrollo de
+        la nutrición en San Juan.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/asociate"
+          class="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200"
+        >
+          Asóciate Ahora
+        </a>
+        <a
+          href="/contacto"
+          class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200"
+        >
+          Contáctanos
+        </a>
       </div>
-      
-      <div class="bg-white rounded-lg shadow-md p-6 border-l-4" style="border-left-color: #ff7b00;">
-        <h3 class="text-xl font-bold mb-3" style="color: #ff7b00;">Nuestros Valores</h3>
-        <ul class="text-gray-700 space-y-2">
-          <li>• Excelencia profesional</li>
-          <li>• Compromiso social</li>
-          <li>• Educación continua</li>
-          <li>• Trabajo en equipo</li>
-        </ul>
-      </div>
-    </div>
+    </section>
   </div>
 </Layout>

@@ -17,7 +17,8 @@ import Layout from '../layouts/Layout.astro';
     const menuItems = [
       { id: 'dashboard', label: 'Dashboard', icon: '📊' },
       { id: 'users', label: 'Usuarios', icon: '👥' },
-      { id: 'members', label: 'Socios', icon: '🏆' },
+      { id: 'socios', label: 'Socios', icon: '👨‍🎓' },
+      { id: 'members', label: 'Gestión Socios', icon: '🏆' },
       { id: 'payments', label: 'Pagos', icon: '💳' },
       { id: 'content', label: 'Contenido', icon: '📝' },
       { id: 'reports', label: 'Reportes', icon: '📈' },
@@ -255,9 +256,22 @@ import Layout from '../layouts/Layout.astro';
             React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, 'Gestión de Usuarios'),
             React.createElement('p', { className: 'text-gray-600' }, 'Funcionalidad en desarrollo...')
           );
-        case 'members':
+        case 'socios':
           return React.createElement('div', { className: 'p-8 text-center' },
             React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, 'Gestión de Socios'),
+            React.createElement('p', { className: 'text-gray-600' }, 'Sistema CRUD completo para gestión de socios'),
+            React.createElement('div', { className: 'mt-4 p-4 bg-blue-50 rounded-lg' },
+              React.createElement('p', { className: 'text-sm text-blue-800' }, 
+                'Para usar el sistema de gestión de socios completo, visite: '),
+              React.createElement('a', { 
+                href: '/admin-socios', 
+                className: 'text-blue-600 underline font-medium' 
+              }, '/admin-socios')
+            )
+          );
+        case 'members':
+          return React.createElement('div', { className: 'p-8 text-center' },
+            React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, 'Gestión de Socios (Legacy)'),
             React.createElement('p', { className: 'text-gray-600' }, 'Funcionalidad en desarrollo...')
           );
         case 'payments':

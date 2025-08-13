@@ -1,0 +1,359 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Noticias - Asociación Sanjuanina de Nutrición">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4" style="color: #ff7b00;">Noticias</h1>
+      <p class="text-xl text-gray-600">Mantente al día con las últimas novedades de la Asociación Sanjuanina de Nutrición</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="mb-8">
+      <div class="max-w-md mx-auto">
+        <input 
+          type="text" 
+          id="searchInput"
+          placeholder="Buscar noticias..." 
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+        />
+      </div>
+    </div>
+
+    <!-- Featured News -->
+    <div id="featuredNews" class="mb-12">
+      <h2 class="text-2xl font-bold mb-6" style="color: #ff7b00;">Noticias Destacadas</h2>
+      <div id="featuredContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Featured news will be loaded here -->
+      </div>
+    </div>
+
+    <!-- All News -->
+    <div>
+      <h2 class="text-2xl font-bold mb-6" style="color: #ff7b00;">Todas las Noticias</h2>
+      <div id="newsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- News will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+      <p class="mt-4 text-gray-600">Cargando noticias...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="text-center py-12 hidden">
+      <div class="text-red-500 mb-4">
+        <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 15.5c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+      </div>
+      <p class="text-gray-600">Error al cargar las noticias</p>
+      <button id="retryButton" class="mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+        Reintentar
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="text-center py-12 hidden">
+      <div class="text-gray-400 mb-4">
+        <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 0a2 2 0 012 2v6a2 2 0 01-2 2h-2m-2-4h-2m2-6h-2m0 0h2m-2 0v2m0-2V7m0 0V4" />
+        </svg>
+      </div>
+      <p class="text-gray-600">No hay noticias disponibles</p>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="mt-12 flex justify-center space-x-2 hidden">
+      <button id="prevButton" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Anterior
+      </button>
+      <div id="pageNumbers" class="flex space-x-2">
+        <!-- Page numbers will be generated here -->
+      </div>
+      <button id="nextButton" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Siguiente
+      </button>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import apiService from '../services/api.js';
+
+  class NewsPage {
+    constructor() {
+      this.currentPage = 1;
+      this.limit = 9;
+      this.search = '';
+      this.totalPages = 1;
+      this.isLoading = false;
+      
+      this.init();
+    }
+
+    init() {
+      this.bindEvents();
+      this.loadFeaturedNews();
+      this.loadNews();
+    }
+
+    bindEvents() {
+      // Search functionality
+      const searchInput = document.getElementById('searchInput');
+      let searchTimeout;
+      
+      searchInput?.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          this.search = e.target.value;
+          this.currentPage = 1;
+          this.loadNews();
+        }, 500);
+      });
+
+      // Retry button
+      document.getElementById('retryButton')?.addEventListener('click', () => {
+        this.loadNews();
+      });
+
+      // Pagination
+      document.getElementById('prevButton')?.addEventListener('click', () => {
+        if (this.currentPage > 1) {
+          this.currentPage--;
+          this.loadNews();
+        }
+      });
+
+      document.getElementById('nextButton')?.addEventListener('click', () => {
+        if (this.currentPage < this.totalPages) {
+          this.currentPage++;
+          this.loadNews();
+        }
+      });
+    }
+
+    showLoading() {
+      document.getElementById('loadingState')?.classList.remove('hidden');
+      document.getElementById('errorState')?.classList.add('hidden');
+      document.getElementById('emptyState')?.classList.add('hidden');
+      document.getElementById('newsContainer').style.display = 'none';
+      document.getElementById('pagination')?.classList.add('hidden');
+    }
+
+    hideLoading() {
+      document.getElementById('loadingState')?.classList.add('hidden');
+      document.getElementById('newsContainer').style.display = 'grid';
+    }
+
+    showError() {
+      document.getElementById('errorState')?.classList.remove('hidden');
+      document.getElementById('loadingState')?.classList.add('hidden');
+      document.getElementById('emptyState')?.classList.add('hidden');
+      document.getElementById('newsContainer').style.display = 'none';
+      document.getElementById('pagination')?.classList.add('hidden');
+    }
+
+    showEmpty() {
+      document.getElementById('emptyState')?.classList.remove('hidden');
+      document.getElementById('loadingState')?.classList.add('hidden');
+      document.getElementById('errorState')?.classList.add('hidden');
+      document.getElementById('newsContainer').style.display = 'none';
+      document.getElementById('pagination')?.classList.add('hidden');
+    }
+
+    async loadFeaturedNews() {
+      try {
+        const response = await apiService.getFeaturedNews(3);
+        if (response.success && response.data.length > 0) {
+          this.renderFeaturedNews(response.data);
+        } else {
+          document.getElementById('featuredNews')?.classList.add('hidden');
+        }
+      } catch (error) {
+        console.error('Error loading featured news:', error);
+        document.getElementById('featuredNews')?.classList.add('hidden');
+      }
+    }
+
+    async loadNews() {
+      if (this.isLoading) return;
+      
+      this.isLoading = true;
+      this.showLoading();
+
+      try {
+        const response = await apiService.getNews(this.currentPage, this.limit, this.search);
+        
+        if (response.success) {
+          if (response.data.length === 0) {
+            this.showEmpty();
+          } else {
+            this.hideLoading();
+            this.renderNews(response.data);
+            this.updatePagination(response.pagination);
+          }
+        } else {
+          this.showError();
+        }
+      } catch (error) {
+        console.error('Error loading news:', error);
+        this.showError();
+      } finally {
+        this.isLoading = false;
+      }
+    }
+
+    renderFeaturedNews(news) {
+      const container = document.getElementById('featuredContainer');
+      if (!container) return;
+
+      container.innerHTML = news.map(item => this.createNewsCard(item, true)).join('');
+    }
+
+    renderNews(news) {
+      const container = document.getElementById('newsContainer');
+      if (!container) return;
+
+      container.innerHTML = news.map(item => this.createNewsCard(item)).join('');
+    }
+
+    createNewsCard(news, isFeatured = false) {
+      const imageUrl = news.imagen ? 
+        `http://localhost:8080/${news.imagen}` : 
+        'https://via.placeholder.com/400x200?text=Sin+Imagen';
+
+      const cardClass = isFeatured ? 
+        'bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-orange-200' :
+        'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300';
+
+      return `
+        <article class="${cardClass}">
+          <div class="aspect-w-16 aspect-h-9 bg-gray-200">
+            <img 
+              src="${imageUrl}" 
+              alt="${news.titulo}"
+              class="w-full h-48 object-cover"
+              onerror="this.src='https://via.placeholder.com/400x200?text=Sin+Imagen'"
+            />
+          </div>
+          <div class="p-6">
+            ${isFeatured ? '<div class="inline-block px-2 py-1 bg-orange-100 text-orange-800 text-xs font-semibold rounded-full mb-2">Destacado</div>' : ''}
+            <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">${news.titulo}</h3>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-3">${news.descripcion_corta}</p>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500">
+                ${new Date(news.fecha_publicacion).toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </span>
+              <a 
+                href="/noticia/${news.slug}" 
+                class="text-orange-600 hover:text-orange-800 font-medium text-sm transition-colors"
+              >
+                Leer más →
+              </a>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    updatePagination(pagination) {
+      if (!pagination || pagination.pages <= 1) {
+        document.getElementById('pagination')?.classList.add('hidden');
+        return;
+      }
+
+      this.totalPages = pagination.pages;
+      document.getElementById('pagination')?.classList.remove('hidden');
+
+      // Update buttons
+      const prevButton = document.getElementById('prevButton');
+      const nextButton = document.getElementById('nextButton');
+      
+      if (prevButton) {
+        prevButton.disabled = this.currentPage <= 1;
+      }
+      
+      if (nextButton) {
+        nextButton.disabled = this.currentPage >= this.totalPages;
+      }
+
+      // Update page numbers
+      this.renderPageNumbers();
+    }
+
+    renderPageNumbers() {
+      const container = document.getElementById('pageNumbers');
+      if (!container) return;
+
+      const pages = [];
+      const start = Math.max(1, this.currentPage - 2);
+      const end = Math.min(this.totalPages, this.currentPage + 2);
+
+      for (let i = start; i <= end; i++) {
+        const isActive = i === this.currentPage;
+        pages.push(`
+          <button 
+            class="px-3 py-2 rounded-lg transition-colors ${
+              isActive 
+                ? 'bg-orange-500 text-white' 
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }"
+            onclick="newsPage.goToPage(${i})"
+          >
+            ${i}
+          </button>
+        `);
+      }
+
+      container.innerHTML = pages.join('');
+    }
+
+    goToPage(page) {
+      this.currentPage = page;
+      this.loadNews();
+    }
+  }
+
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    window.newsPage = new NewsPage();
+  });
+</script>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .aspect-w-16 {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+
+  .aspect-w-16 img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

@@ -24,34 +24,40 @@ const LoginForm: React.FC = () => {
     }
 
     try {
-      await login(email, password);
+      const result = await login(email, password);
       
-      setMessage('Inicio de sesión exitoso!');
-      setMessageType('success');
-      
-      // Clear form
-      setEmail('');
-      setPassword('');
-      
-      // Redirect to dashboard after a short delay
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 1000);
-      
+      if (result.success) {
+        setMessage('Inicio de sesión exitoso!');
+        setMessageType('success');
+        
+        // Clear form
+        setEmail('');
+        setPassword('');
+        
+        // Redirect to dashboard after a short delay
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1000);
+      } else {
+        setMessage(result.error || 'Error al iniciar sesión.');
+        setMessageType('error');
+      }
     } catch (error) {
       let errorMessage = 'Error al iniciar sesión.';
 
-      if (typeof error === 'object' && error !== null && 'message' in error && typeof (error as any).message === 'string') {
-        const errMsg = (error as any).message;
+      if (error instanceof Error) {
+        const errMsg = error.message;
         if (errMsg.includes('401') || errMsg.includes('Unauthorized')) {
           errorMessage = 'Credenciales incorrectas. Verifique su email y contraseña.';
         } else if (errMsg.includes('403') || errMsg.includes('Forbidden')) {
           errorMessage = 'Acceso denegado. Su cuenta podría no estar activa.';
+        } else if (errMsg.includes('500') || errMsg.includes('Internal Server Error')) {
+          errorMessage = 'Error del servidor. Inténtalo de nuevo más tarde.';
+        } else if (errMsg.includes('Network') || errMsg.includes('fetch')) {
+          errorMessage = 'No se pudo conectar con el servidor. Verifique su conexión.';
         } else {
           errorMessage = errMsg || 'Error inesperado. Inténtalo de nuevo.';
         }
-      } else if (typeof error === 'object' && error !== null && 'type' in error && (error as any).type === 'network') {
-        errorMessage = 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.';
       } else {
         errorMessage = 'Error inesperado. Inténtalo de nuevo.';
       }

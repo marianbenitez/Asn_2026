@@ -1,0 +1,195 @@
+---
+import Layout from "../layouts/Layout.astro";
+import OspProfesionales from "../components/OspProfesionales.tsx";
+---
+
+<Layout title="Profesionales OSP - Asociación Sanjuanina de Nutrición">
+  <!-- Hero Section -->
+  <section
+    class="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-20"
+  >
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-5xl font-bold mb-6">Profesionales OSP</h1>
+      <p class="text-xl max-w-3xl mx-auto opacity-90">
+        Encuentra nutricionistas que atienden con Obra Social Provincial (OSP)
+        en San Juan. Filtra por localidad y encuentra el profesional que
+        necesitas.
+      </p>
+    </div>
+  </section>
+
+  <!-- Componente OSP Profesionales -->
+  <OspProfesionales client:load />
+
+  <!-- Sección de información adicional -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Información sobre OSP -->
+          <div class="bg-white rounded-lg p-8 shadow-md">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4"
+              >
+                <svg
+                  class="w-6 h-6 text-orange-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-900">¿Qué es OSP?</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+              La Obra Social Provincial (OSP) es el sistema de salud público de
+              la provincia de San Juan. Los profesionales listados aquí atienden
+              con esta cobertura.
+            </p>
+            <ul class="text-sm text-gray-600 space-y-2">
+              <li class="flex items-center">
+                <svg
+                  class="w-4 h-4 text-orange-500 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Cobertura completa de consultas nutricionales
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-4 h-4 text-orange-500 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Sin costo adicional para afiliados
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-4 h-4 text-orange-500 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Profesionales certificados y habilitados
+              </li>
+            </ul>
+          </div>
+
+          <!-- Cómo usar la búsqueda -->
+          <div class="bg-white rounded-lg p-8 shadow-md">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4"
+              >
+                <svg
+                  class="w-6 h-6 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-900">Cómo buscar</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+              Utiliza los filtros para encontrar el profesional que mejor se
+              adapte a tus necesidades:
+            </p>
+            <ul class="text-sm text-gray-600 space-y-2">
+              <li class="flex items-center">
+                <svg
+                  class="w-4 h-4 text-blue-500 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Busca por nombre del profesional
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-4 h-4 text-blue-500 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Filtra por localidad
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-4 h-4 text-blue-500 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Consulta horarios y ubicación
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4">¿Necesitas más información?</h2>
+      <p class="text-xl mb-8 opacity-90">
+        Si no encuentras lo que buscas o necesitas ayuda, no dudes en
+        contactarnos
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/contacto"
+          class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+        >
+          Contactar ASN
+        </a>
+        <a
+          href="/asociate"
+          class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+        >
+          Asociarse
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

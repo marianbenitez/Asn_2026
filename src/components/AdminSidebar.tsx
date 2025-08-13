@@ -11,7 +11,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'users', label: 'Usuarios', icon: '👥' },
-    { id: 'members', label: 'Socios', icon: '🏆' },
+    { id: 'socios', label: 'Socios', icon: '👨‍🎓' },
+    { id: 'members', label: 'Gestión Socios', icon: '🏆' },
     { id: 'payments', label: 'Pagos', icon: '💳' },
     { id: 'content', label: 'Contenido', icon: '📝' },
     { id: 'reports', label: 'Reportes', icon: '📈' },

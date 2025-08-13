@@ -1,0 +1,821 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Logo from "../components/Logo.astro";
+
+// Datos de beneficios desde el JSON
+const beneficiosData = {
+  convenios: [
+    {
+      nombre: "ZETA PAPELERIA Y LIBRERÍA",
+      contacto: "2646723798",
+      descuento: "10 % DE DESCUENTO",
+      direccion: "LIBERTADOR 2940 OESTE - RIVADAVIA",
+      redes_sociales: null,
+    },
+    {
+      nombre: "VERDE PISTACHO TIENDA NATURAL",
+      contacto: "2644456868",
+      descuento: "10 % DE DESCUENTO",
+      direccion: "ESTEBAN ECHEVERRIA 39 SUR - RIVADAVIA",
+      redes_sociales: null,
+    },
+    {
+      nombre: "VICTORIA IGUALADA REPOSTERIA CATERING Y CAFETERIA",
+      contacto: "2645803177",
+      descuento: "10 % DE DESCUENTO",
+      direccion: "AV LIBERTADOR 1730 OESTE - CAPITAL",
+      redes_sociales: null,
+    },
+    {
+      nombre: "UN TOQUE DE CANELA ALMACEN NATURAL",
+      contacto: "2645426813",
+      descuento: "10 % DE DESCUENTO",
+      direccion: "JOSE MARIA PAZ 2149 ESTE - SANTA LUCIA",
+      redes_sociales: null,
+    },
+    {
+      nombre: "NOVA PELUQUEROS",
+      contacto: "2645402358",
+      descuento: "15 % DE DESCUENTO",
+      direccion: "BRASIL 2552 OESTE - CAPITAL",
+      redes_sociales: null,
+    },
+    {
+      nombre: "HIELO AZUL ALMACEN DE BEBIDAS",
+      contacto: "2645167216",
+      descuento: "20% DE DESCUENTO EN VINOS",
+      direccion: "ESTEBAN ECHEVERRIA 19 SUR - RIVADAVIA",
+      redes_sociales: null,
+    },
+    {
+      nombre: "WABI SABI ESTETICA Y NUTRICION",
+      contacto: "2644001084",
+      descuento: "15% DE DESCUENTO",
+      direccion: "PAULA SARMIENTO 25 SUR - CAPITAL",
+      redes_sociales: null,
+    },
+    {
+      nombre: "GEMINIS BELLEZA Y COSMETICA",
+      contacto: "2645288373",
+      descuento: "10% DE DESCUENTO",
+      direccion: "GRANADEROS 912 NORTE - RIVADAVIA",
+      redes_sociales: null,
+    },
+    {
+      nombre: "CONTIGO NAIF TIENDA DE REGALOS",
+      contacto: "1559513366",
+      descuento: "15% DE DESCUENTO",
+      direccion: "HERMOGENES RUIZ 994 SUR - CAPITAL",
+      redes_sociales: null,
+    },
+    {
+      nombre: "LOCAS SUELTAS MARROQUINERIA",
+      contacto: "2644115368",
+      descuento:
+        "20% DE DESCUENTO EN EFECTIVO LOS MIERCOLES Y 10% DE DESCUENTO CON TARJETA",
+      direccion: "HERMOGENES RUIZ ESQUINA SANTA FE - CAPITAL",
+      redes_sociales: "@SIEMPREROPAORIGINAL",
+    },
+    {
+      nombre: "SIEMPRE ROPA",
+      contacto: "2644419521",
+      descuento:
+        "10% DE DESCUENTO DE LUNES A JUEVES Y 15% DE DESCUENTO VIERNES",
+      direccion: "DEL BONO SUR 678 - CAPITAL",
+      redes_sociales: "@LOCASSUELTASTREND",
+    },
+    {
+      nombre: "ATHLOS GIMNASIO",
+      contacto: "2645556218",
+      descuento: "15% DE DESCUENTO ACUMULABLE",
+      direccion: "LAS PALMAS 124 NORTE - RIVADAVIA",
+      redes_sociales: "@ATHLOSCLUB",
+    },
+    {
+      nombre: "HOD FITNESS CLUB",
+      contacto: "2645260814",
+      descuento: "10% DE DESCUENTO",
+      direccion: "EL ALMENDRO: DR. ORLANDO MARINO 6503 (O). RIVADAVIA",
+      redes_sociales: "@HODFITNESSCLUB",
+    },
+    {
+      nombre: "DIANA SHOWROOM",
+      contacto: "2644049441",
+      descuento: "15% DE DESCUENTO",
+      direccion: "REPUBLICA DEL LIBANO 2856 OESTE - RAWSON",
+      redes_sociales: "@DIANASHOWROOM15",
+    },
+    {
+      nombre: "INTI HUASI",
+      contacto: "2644447881",
+      descuento: "10% DE DESCUENTO",
+      direccion: "25 DE MAYO Y EEUU. CAPITAL",
+      redes_sociales: "@INTIHUASI.PRODUCTOSNATURALES",
+    },
+    {
+      nombre: "RECREARTE",
+      contacto: "@RECREARTESJ",
+      descuento:
+        "El descuento al que accederá cada HIJO INGRESANTE será del 10%, (inscripción y materiales) bonificará de enero a mayo en un 30%. De junio a septiembre será Bonificada por ÚNICA VEZ el 100% (matrícula y 30% de materiales). De octubre a diciembre el 100% (matrícula y materiales). Para acceder al descuento los HIJOS que ya pertenecen a los jardines, deberán llevar UN referido a algunos de los Jardines mencionados. La institución ya posee un descuento de hermanos que es equivalente al 15 %; en este caso NO será acumulable al 10% de descuento del presente convenio.",
+      direccion:
+        "Recrearte Central: Laprida 126 (O) antes de Entre Rios. La Casona De Recrearte: San Luis y Catamarca. Recrearte Rufrano: Lateral de Circunvalación 500 (S). Recrearte Libertador: Libertador 1345 (O). Recrearte Santa Lucía: Pellegrini 645 (S). Recrearte La Cabaña: Boggian 3954 (O), Bº La Cabaña, Rivadavia. El Nido Montesosori: Saavedra 115 (N), Rivadavia; Santa Fé 378 (E). Capital. El Pato Jardín Maternal: Santo Domingo 75 (N), Rivadavia. Recrearte Pedro Echagüe: Pedro Echagüe esquina Aberastain, Capital.",
+      redes_sociales: null,
+    },
+  ],
+  asociacion: {
+    nombre: "Asociación Sanjuanina de Nutrición",
+    direccion: "Rivadavia 816 oeste - Capital",
+    contacto: "264 4557387",
+    sitio_web: "asociacionsanjuaninadenutricion.org.ar",
+    email: "asociacionsanjuaninadenutricion@hotmail.com",
+  },
+};
+
+const convenios = beneficiosData.convenios;
+---
+
+<Layout title="Beneficios Exclusivos - Asociación Sanjuanina de Nutrición">
+  <!-- Hero Section -->
+  <section
+    class="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-16 mb-12"
+  >
+    <div class="container mx-auto px-4 text-center">
+      <div class="mb-8">
+        <Logo size="lg" variant="white" />
+      </div>
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">BENEFICIOS</h1>
+      <p class="text-xl md:text-2xl opacity-90">EXCLUSIVOS PARA SOCIAS</p>
+      <div class="w-24 h-1 bg-white mx-auto mt-6 rounded-full"></div>
+    </div>
+  </section>
+
+  <!-- Descripción de Beneficios -->
+  <section class="mb-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8" style="color: #ff7b00;">
+          Descubre todos los beneficios exclusivos para nuestras asociadas
+        </h2>
+        <p class="text-lg text-gray-600 mb-12">
+          Como miembro de la Asociación Sanjuanina de Nutrición, tendrás acceso
+          a descuentos especiales, productos exclusivos y servicios de calidad
+          en las mejores marcas y establecimientos de San Juan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video de Convenios -->
+  <section class="mb-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h3 class="text-2xl font-bold text-center mb-8" style="color: #ff7b00;">
+          🎥 Conoce Nuestros Convenios
+        </h3>
+        <p class="text-center text-gray-600 mb-8">
+          Descubre en este video todos los beneficios exclusivos que tenemos
+          para ti
+        </p>
+
+        <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div class="aspect-video">
+            <video
+              class="w-full h-full object-cover"
+              controls
+              poster="/src/assets/img/Logos/Screenshot_20240313_181953_Instagram_20250731_163429_0000.jpg"
+            >
+              <source
+                src="/src/assets/video/convenios_20250403_111643_0001.mp4"
+                type="video/mp4"
+              />
+              Tu navegador no soporta el elemento de video.
+            </video>
+          </div>
+
+          <div class="p-6 bg-gradient-to-r from-orange-50 to-orange-100">
+            <h4 class="text-lg font-semibold mb-2" style="color: #ff7b00;">
+              📋 Información del Video
+            </h4>
+            <p class="text-gray-700 text-sm">
+              Este video muestra todos los convenios activos de la ASN,
+              incluyendo descuentos, ubicaciones y contactos de cada
+              establecimiento asociado.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carrusel de Marcas con Popups -->
+  <section class="mb-16">
+    <div class="container mx-auto px-4">
+      <h3 class="text-2xl font-bold text-center mb-12" style="color: #ff7b00;">
+        Nuestras Marcas Asociadas
+      </h3>
+      <p class="text-center text-gray-600 mb-8">
+        <span class="font-semibold">💡 Consejo:</span> Haz clic en cada marca para
+        ver sus beneficios específicos
+      </p>
+
+      <div class="brands-carousel relative">
+        <div
+          class="brands-container flex gap-8 overflow-x-auto pb-4 scrollbar-hide"
+        >
+          {
+            convenios.map((convenio, index) => (
+              <div
+                class="brand-card flex-shrink-0 bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative cursor-pointer"
+                data-brand={convenio.nombre.toLowerCase().replace(/\s+/g, "-")}
+                data-index={index}
+              >
+                <div class="w-32 h-32 bg-gray-100 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                  <img
+                    src={`/src/assets/img/Logos/Screenshot_${index + 1}_${convenio.nombre.replace(/\s+/g, "_")}.jpg`}
+                    alt={convenio.nombre}
+                    class="w-full h-full object-cover"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                  />
+                  <div class="text-center hidden">
+                    <div class="w-16 h-16 bg-orange-200 rounded-lg flex items-center justify-center mb-2">
+                      <span class="text-orange-600 font-bold text-xs">
+                        {convenio.nombre.split(" ")[0]}
+                      </span>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                      {convenio.nombre.split(" ").slice(1, 3).join(" ")}
+                    </p>
+                  </div>
+                </div>
+                <h4 class="font-semibold text-lg mb-2" style="color: #ff7b00;">
+                  {convenio.nombre}
+                </h4>
+                <p class="text-sm text-gray-600">{convenio.descuento}</p>
+                <div class="mt-2 text-xs text-gray-500">
+                  📍 {convenio.direccion}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Popup -->
+  <div
+    id="beneficioModal"
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+    >
+      <div class="p-8">
+        <div class="flex justify-between items-start mb-6">
+          <h3
+            id="modalTitle"
+            class="text-2xl font-bold"
+            style="color: #ff7b00;"
+          >
+          </h3>
+          <button
+            id="closeModal"
+            class="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+          >
+            ×
+          </button>
+        </div>
+
+        <div id="modalContent" class="space-y-6">
+          <!-- Contenido dinámico -->
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <button
+              id="contactarBtn"
+              class="bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors flex items-center justify-center"
+            >
+              📞 Contactar
+            </button>
+            <button
+              id="direccionBtn"
+              class="border-2 border-orange-500 text-orange-500 px-6 py-3 rounded-full font-semibold hover:bg-orange-500 hover:text-white transition-colors flex items-center justify-center"
+            >
+              📍 Ver ubicación
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Información de Beneficios -->
+  <section class="mb-16">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <h3 class="text-2xl font-bold mb-6" style="color: #ff7b00;">
+            ¿Cómo acceder a los beneficios?
+          </h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <div
+                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center mr-3 mt-1"
+              >
+                <span class="text-orange-600 font-bold text-sm">1</span>
+              </div>
+              <p class="text-gray-700">
+                Asóciate a la ASN completando el formulario de membresía
+              </p>
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center mr-3 mt-1"
+              >
+                <span class="text-orange-600 font-bold text-sm">2</span>
+              </div>
+              <p class="text-gray-700">
+                Recibe tu credencial de asociada con tu número de socio
+              </p>
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center mr-3 mt-1"
+              >
+                <span class="text-orange-600 font-bold text-sm">3</span>
+              </div>
+              <p class="text-gray-700">
+                Presenta tu credencial en cualquiera de nuestras marcas
+                asociadas
+              </p>
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center mr-3 mt-1"
+              >
+                <span class="text-orange-600 font-bold text-sm">4</span>
+              </div>
+              <p class="text-gray-700">
+                Disfruta de descuentos exclusivos y beneficios especiales
+              </p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <h3 class="text-2xl font-bold mb-6" style="color: #ff7b00;">
+            Beneficios Adicionales
+          </h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-orange-500 mr-3 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              <p class="text-gray-700">Capacitaciones y talleres gratuitos</p>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-orange-500 mr-3 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              <p class="text-gray-700">
+                Acceso a biblioteca digital especializada
+              </p>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-orange-500 mr-3 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              <p class="text-gray-700">Red de profesionales y networking</p>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-orange-500 mr-3 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              <p class="text-gray-700">
+                Publicaciones científicas actualizadas
+              </p>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-orange-500 mr-3 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              <p class="text-gray-700">Eventos y congresos con descuentos</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-12 text-center text-white mb-16"
+  >
+    <h2 class="text-3xl font-bold mb-4">
+      ¿Lista para disfrutar de estos beneficios?
+    </h2>
+    <p class="text-xl mb-8 opacity-90">
+      Únete a nuestra asociación y accede a descuentos exclusivos en las mejores
+      marcas
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a
+        href="/asociate"
+        class="bg-white text-orange-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+      >
+        Asociarse ahora
+      </a>
+      <a
+        href="/contacto"
+        class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-orange-600 transition-colors"
+      >
+        Consultar beneficios
+      </a>
+    </div>
+  </section>
+
+  <style>
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .brands-container {
+      scroll-behavior: smooth;
+    }
+
+    .brand-card {
+      min-width: 280px;
+    }
+
+    /* Animación suave para las imágenes */
+    .brand-card img {
+      transition: transform 0.3s ease;
+    }
+
+    .brand-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Efecto de brillo en hover */
+    .brand-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: left 0.5s;
+    }
+
+    .brand-card:hover::before {
+      left: 100%;
+    }
+
+    /* Estilos para el modal */
+    .modal-open {
+      overflow: hidden;
+    }
+
+    .modal-content {
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <script>
+    // Datos de beneficios
+    const beneficiosData = {
+      convenios: [
+        {
+          nombre: "ZETA PAPELERIA Y LIBRERÍA",
+          contacto: "2646723798",
+          descuento: "10 % DE DESCUENTO",
+          direccion: "LIBERTADOR 2940 OESTE - RIVADAVIA",
+          redes_sociales: null,
+        },
+        {
+          nombre: "VERDE PISTACHO TIENDA NATURAL",
+          contacto: "2644456868",
+          descuento: "10 % DE DESCUENTO",
+          direccion: "ESTEBAN ECHEVERRIA 39 SUR - RIVADAVIA",
+          redes_sociales: null,
+        },
+        {
+          nombre: "VICTORIA IGUALADA REPOSTERIA CATERING Y CAFETERIA",
+          contacto: "2645803177",
+          descuento: "10 % DE DESCUENTO",
+          direccion: "AV LIBERTADOR 1730 OESTE - CAPITAL",
+          redes_sociales: null,
+        },
+        {
+          nombre: "UN TOQUE DE CANELA ALMACEN NATURAL",
+          contacto: "2645426813",
+          descuento: "10 % DE DESCUENTO",
+          direccion: "JOSE MARIA PAZ 2149 ESTE - SANTA LUCIA",
+          redes_sociales: null,
+        },
+        {
+          nombre: "NOVA PELUQUEROS",
+          contacto: "2645402358",
+          descuento: "15 % DE DESCUENTO",
+          direccion: "BRASIL 2552 OESTE - CAPITAL",
+          redes_sociales: null,
+        },
+        {
+          nombre: "HIELO AZUL ALMACEN DE BEBIDAS",
+          contacto: "2645167216",
+          descuento: "20% DE DESCUENTO EN VINOS",
+          direccion: "ESTEBAN ECHEVERRIA 19 SUR - RIVADAVIA",
+          redes_sociales: null,
+        },
+        {
+          nombre: "WABI SABI ESTETICA Y NUTRICION",
+          contacto: "2644001084",
+          descuento: "15% DE DESCUENTO",
+          direccion: "PAULA SARMIENTO 25 SUR - CAPITAL",
+          redes_sociales: null,
+        },
+        {
+          nombre: "GEMINIS BELLEZA Y COSMETICA",
+          contacto: "2645288373",
+          descuento: "10% DE DESCUENTO",
+          direccion: "GRANADEROS 912 NORTE - RIVADAVIA",
+          redes_sociales: null,
+        },
+        {
+          nombre: "CONTIGO NAIF TIENDA DE REGALOS",
+          contacto: "1559513366",
+          descuento: "15% DE DESCUENTO",
+          direccion: "HERMOGENES RUIZ 994 SUR - CAPITAL",
+          redes_sociales: null,
+        },
+        {
+          nombre: "LOCAS SUELTAS MARROQUINERIA",
+          contacto: "2644115368",
+          descuento:
+            "20% DE DESCUENTO EN EFECTIVO LOS MIERCOLES Y 10% DE DESCUENTO CON TARJETA",
+          direccion: "HERMOGENES RUIZ ESQUINA SANTA FE - CAPITAL",
+          redes_sociales: "@SIEMPREROPAORIGINAL",
+        },
+        {
+          nombre: "SIEMPRE ROPA",
+          contacto: "2644419521",
+          descuento:
+            "10% DE DESCUENTO DE LUNES A JUEVES Y 15% DE DESCUENTO VIERNES",
+          direccion: "DEL BONO SUR 678 - CAPITAL",
+          redes_sociales: "@LOCASSUELTASTREND",
+        },
+        {
+          nombre: "ATHLOS GIMNASIO",
+          contacto: "2645556218",
+          descuento: "15% DE DESCUENTO ACUMULABLE",
+          direccion: "LAS PALMAS 124 NORTE - RIVADAVIA",
+          redes_sociales: "@ATHLOSCLUB",
+        },
+        {
+          nombre: "HOD FITNESS CLUB",
+          contacto: "2645260814",
+          descuento: "10% DE DESCUENTO",
+          direccion: "EL ALMENDRO: DR. ORLANDO MARINO 6503 (O). RIVADAVIA",
+          redes_sociales: "@HODFITNESSCLUB",
+        },
+        {
+          nombre: "DIANA SHOWROOM",
+          contacto: "2644049441",
+          descuento: "15% DE DESCUENTO",
+          direccion: "REPUBLICA DEL LIBANO 2856 OESTE - RAWSON",
+          redes_sociales: "@DIANASHOWROOM15",
+        },
+        {
+          nombre: "INTI HUASI",
+          contacto: "2644447881",
+          descuento: "10% DE DESCUENTO",
+          direccion: "25 DE MAYO Y EEUU. CAPITAL",
+          redes_sociales: "@INTIHUASI.PRODUCTOSNATURALES",
+        },
+        {
+          nombre: "RECREARTE",
+          contacto: "@RECREARTESJ",
+          descuento:
+            "El descuento al que accederá cada HIJO INGRESANTE será del 10%, (inscripción y materiales) bonificará de enero a mayo en un 30%. De junio a septiembre será Bonificada por ÚNICA VEZ el 100% (matrícula y 30% de materiales). De octubre a diciembre el 100% (matrícula y materiales). Para acceder al descuento los HIJOS que ya pertenecen a los jardines, deberán llevar UN referido a algunos de los Jardines mencionados. La institución ya posee un descuento de hermanos que es equivalente al 15 %; en este caso NO será acumulable al 10% de descuento del presente convenio.",
+          direccion:
+            "Recrearte Central: Laprida 126 (O) antes de Entre Rios. La Casona De Recrearte: San Luis y Catamarca. Recrearte Rufrano: Lateral de Circunvalación 500 (S). Recrearte Libertador: Libertador 1345 (O). Recrearte Santa Lucía: Pellegrini 645 (S). Recrearte La Cabaña: Boggian 3954 (O), Bº La Cabaña, Rivadavia. El Nido Montesosori: Saavedra 115 (N), Rivadavia; Santa Fé 378 (E). Capital. El Pato Jardín Maternal: Santo Domingo 75 (N), Rivadavia. Recrearte Pedro Echagüe: Pedro Echagüe esquina Aberastain, Capital.",
+          redes_sociales: null,
+        },
+      ],
+    };
+
+    // Funcionalidad del modal
+    document.addEventListener("DOMContentLoaded", function () {
+      const modal = document.getElementById("beneficioModal") as HTMLElement;
+      const modalTitle = document.getElementById("modalTitle") as HTMLElement;
+      const modalContent = document.getElementById(
+        "modalContent"
+      ) as HTMLElement;
+      const closeModal = document.getElementById("closeModal") as HTMLElement;
+      const contactarBtn = document.getElementById(
+        "contactarBtn"
+      ) as HTMLElement;
+      const direccionBtn = document.getElementById(
+        "direccionBtn"
+      ) as HTMLElement;
+      const brandCards = document.querySelectorAll(".brand-card");
+
+      let currentConvenio: any = null;
+
+      // Abrir modal al hacer clic en una marca
+      brandCards.forEach((card, index) => {
+        card.addEventListener("click", () => {
+          currentConvenio = beneficiosData.convenios[index];
+          showModal(currentConvenio);
+        });
+      });
+
+      // Cerrar modal
+      closeModal.addEventListener("click", hideModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          hideModal();
+        }
+      });
+
+      // Cerrar con ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          hideModal();
+        }
+      });
+
+      // Botón contactar
+      contactarBtn.addEventListener("click", () => {
+        if (currentConvenio) {
+          if (currentConvenio.contacto.startsWith("@")) {
+            // Es una red social
+            window.open(
+              `https://instagram.com/${currentConvenio.contacto.substring(1)}`,
+              "_blank"
+            );
+          } else {
+            // Es un teléfono
+            window.open(`tel:${currentConvenio.contacto}`, "_blank");
+          }
+        }
+      });
+
+      // Botón dirección
+      direccionBtn.addEventListener("click", () => {
+        if (currentConvenio) {
+          const address = encodeURIComponent(
+            currentConvenio.direccion + ", San Juan, Argentina"
+          );
+          window.open(
+            `https://www.google.com/maps/search/?api=1&query=${address}`,
+            "_blank"
+          );
+        }
+      });
+
+      function showModal(convenio: any) {
+        modalTitle.textContent = convenio.nombre;
+
+        let redesSocialesHtml = "";
+        if (convenio.redes_sociales) {
+          redesSocialesHtml = `
+            <div class="bg-blue-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-blue-800 mb-2">📱 Redes Sociales</h4>
+              <a href="https://instagram.com/${convenio.redes_sociales.substring(1)}" 
+                 target="_blank" 
+                 class="text-blue-600 hover:text-blue-800 font-medium">
+                ${convenio.redes_sociales}
+              </a>
+            </div>
+          `;
+        }
+
+        modalContent.innerHTML = `
+          <div class="space-y-4">
+            <div class="bg-orange-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-orange-800 mb-2">🎯 Beneficio Exclusivo</h4>
+              <p class="text-orange-700">${convenio.descuento}</p>
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-800 mb-2">📍 Ubicación</h4>
+              <p class="text-gray-700">${convenio.direccion}</p>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-green-800 mb-2">📞 Contacto</h4>
+              <p class="text-green-700">${convenio.contacto}</p>
+            </div>
+            
+            ${redesSocialesHtml}
+            
+            <div class="bg-purple-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-purple-800 mb-2">ℹ️ Información Importante</h4>
+              <ul class="text-purple-700 text-sm space-y-1">
+                <li>• Presenta tu credencial ASN para acceder al descuento</li>
+                <li>• El beneficio es exclusivo para asociadas activas</li>
+                <li>• Consulta disponibilidad antes de visitar</li>
+                <li>• Algunos descuentos pueden tener restricciones</li>
+              </ul>
+            </div>
+          </div>
+        `;
+
+        modal.classList.remove("hidden");
+        document.body.classList.add("modal-open");
+      }
+
+      function hideModal() {
+        modal.classList.add("hidden");
+        document.body.classList.remove("modal-open");
+        currentConvenio = null;
+      }
+
+      // Auto-scroll del carrusel
+      const container = document.querySelector(".brands-container");
+      if (container) {
+        let scrollPosition = 0;
+        const scrollStep = 300;
+
+        setInterval(() => {
+          scrollPosition += scrollStep;
+          if (scrollPosition >= container.scrollWidth - container.clientWidth) {
+            scrollPosition = 0;
+          }
+          container.scrollTo({
+            left: scrollPosition,
+            behavior: "smooth",
+          });
+        }, 4000);
+      }
+    });
+  </script>
+</Layout>

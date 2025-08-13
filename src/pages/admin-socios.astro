@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Gestión de Socios - Admin - Asociación Sanjuanina de Nutrición">
+  <div id="socios-management-root" class="min-h-screen bg-gray-100"></div>
+</Layout>
+
+<script>
+  import React from 'https://esm.sh/react@19.1.0';
+  import { createRoot } from 'https://esm.sh/react-dom@19.1.0/client';
+  import SociosManagement from '../components/admin/SociosManagement.tsx';
+
+  // Render the component
+  const root = createRoot(document.getElementById('socios-management-root'));
+  root.render(React.createElement(SociosManagement));
+</script>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  main {
+    padding: 1rem !important;
+  }
+</style>

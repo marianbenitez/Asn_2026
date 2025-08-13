@@ -1,114 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, ChevronUp, Calculator, FileText, Users, BookOpen, Search, Building, Home, Stethoscope } from 'lucide-react';
+import apiService from '../services/api.js';
 
-type NomencladorItem =
-  | { name: string; units: number; amount: number }
-  | { name: string; units: number; hourly: number; monthly: number | null };
+interface Servicio {
+  id: number;
+  nombre: string;
+  unidades_asmenut: number;
+  monto_fijo?: number;
+  monto_por_hora?: number;
+  monto_mensual?: number;
+  monto_calculado: number;
+}
 
-type NomencladorSection = {
-  title: string;
-  icon: React.ReactNode;
-  items: NomencladorItem[];
-};
+interface Categoria {
+  id: number;
+  nombre: string;
+  icono: string;
+  descripcion?: string;
+  servicios: Servicio[];
+}
+
+interface HonorariosData {
+  valor_asmenut: number;
+  categorias: Categoria[];
+}
 
 const NomencladorNutricion = () => {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
   const [searchTerm, setSearchTerm] = useState('');
-  const nomencladorData: Record<string, NomencladorSection> = {
-    consultorioPresencial: {
-      title: "Actividad Privada en Consultorio Presencial/Online",
-      icon: <Stethoscope className="w-5 h-5" />,
-      items: [
-        { name: "Consulta", units: 5, amount: 25000 },
-        { name: "Plan Alimentario", units: 6, amount: 30000 },
-        { name: "Consulta Online", units: 4, amount: 20000 },
-        { name: "Módulo 8 consultas mínimo", units: 35, amount: 175000 },
-        { name: "Módulos 4 consultas", units: 18, amount: 90000 },
-        { name: "Soporte nutricional ambulatorio", units: 10, amount: 50000 },
-        { name: "Valoración nutricional por antropometría", units: 8, amount: 40000 }
-      ]
-    },
-    discapacidad: {
-      title: "Actividad Privada - Área Discapacidad/TCA",
-      icon: <Users className="w-5 h-5" />,
-      items: [
-        { name: "Módulo simple (4 consultas mensuales)", units: 18, amount: 90000 },
-        { name: "Módulo Intensivo (8 consultas mensuales)", units: 30, amount: 150000 },
-        { name: "Entrevistas interdisciplinarias (x hora)", units: 6, amount: 30000 }
-      ]
-    },
-    domicilio: {
-      title: "Atención Privada en Domicilio",
-      icon: <Home className="w-5 h-5" />,
-      items: [
-        { name: "Consulta domicilio", units: 8, amount: 40000 },
-        { name: "Módulos 4 consultas", units: 26, amount: 130000 },
-        { name: "Módulos 8 consultas mínimo", units: 43, amount: 215000 }
-      ]
-    },
-    instituciones: {
-      title: "Actividad en Sanatorios, Clínicas, Hospitales",
-      icon: <Building className="w-5 h-5" />,
-      items: [
-        { name: "40 hs semanales", units: 450, hourly: 56250, monthly: 2250000 },
-        { name: "30 hs semanales", units: 350, hourly: 58333, monthly: 1750000 },
-        { name: "20 hs semanales", units: 250, hourly: 62500, monthly: 1250000 },
-        { name: "Valor del día (8h)", units: 30, hourly: 18750, monthly: 150000 },
-        { name: "Fines de semana y feriados", units: 15, hourly: 75000, monthly: null }
-      ]
-    },
-    organismosPublicos: {
-      title: "Actividad en Organismos Públicos",
-      icon: <Building className="w-5 h-5" />,
-      items: [
-        { name: "40 hs semanales", units: 450, hourly: 45000, monthly: 1800000 },
-        { name: "30 hs semanales", units: 350, hourly: 46667, monthly: 1400000 },
-        { name: "20 hs semanales", units: 250, hourly: 50000, monthly: 1000000 },
-        { name: "Valor del día (8h)", units: 30, hourly: 15000, monthly: 120000 },
-        { name: "Fines de semana y feriados", units: 15, hourly: 60000, monthly: null }
-      ]
-    },
-    docencia: {
-      title: "Actividad en Docencia",
-      icon: <BookOpen className="w-5 h-5" />,
-      items: [
-        { name: "Nivel secundario", units: 3, amount: 15000 },
-        { name: "Nivel terciario", units: 4, amount: 20000 },
-        { name: "Universitaria de grado", units: 6, amount: 30000 },
-        { name: "Universitaria de posgrado", units: 10, amount: 50000 },
-        { name: "Educativa comunitaria secuencial (≤50 personas)", units: 6, amount: 30000 },
-        { name: "Educativa comunitaria ocasional (≤50 personas)", units: 8, amount: 40000 },
-        { name: "Grupos específicos secuencial (≤50 personas)", units: 9, amount: 45000 },
-        { name: "Grupos específicos ocasional (≤50 personas)", units: 7, amount: 35000 }
-      ]
-    },
-    investigacion: {
-      title: "Actividad en Investigación",
-      icon: <Search className="w-5 h-5" />,
-      items: [
-        { name: "Coordinador/Director", units: 500, amount: 2500000 },
-        { name: "Asesor", units: 400, amount: 2000000 },
-        { name: "Investigador principal", units: 320, amount: 1600000 },
-        { name: "Investigador asociado", units: 300, amount: 1500000 },
-        { name: "Investigador colaborador", units: 260, amount: 1300000 },
-        { name: "Investigador junior", units: 230, amount: 1150000 },
-        { name: "Colaborador en proyectos", units: 200, amount: 1000000 }
-      ]
-    },
-    direccionTecnica: {
-      title: "Dirección Técnica de Alimentos",
-      icon: <FileText className="w-5 h-5" />,
-      items: [
-        { name: "Dirección técnica 20 hs semanales", units: 300, amount: 1500000 },
-        { name: "Dirección técnica 30 hs semanales", units: 400, amount: 2000000 },
-        { name: "Dirección técnica 40 hs semanales", units: 500, amount: 2500000 },
-        { name: "Asesorías", units: 250, amount: 1250000 },
-        { name: "Capacitador (carnet manipulación)", units: 6, amount: 30000 },
-        { name: "Inscripción RNE - RNPA", units: 300, amount: 1500000 },
-        { name: "Reinscripción RNE/RNPA", units: 200, amount: 1000000 },
-        { name: "Rotulado nutricional básico", units: 250, amount: 1250000 },
-        { name: "Desarrollo de producto alimenticio", units: 500, amount: 2500000 }
-      ]
+  const [honorariosData, setHonorariosData] = useState<HonorariosData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // Mapeo de iconos
+  const iconMap: Record<string, React.ReactNode> = {
+    'stethoscope': <Stethoscope className="w-5 h-5" />,
+    'users': <Users className="w-5 h-5" />,
+    'home': <Home className="w-5 h-5" />,
+    'building': <Building className="w-5 h-5" />,
+    'book-open': <BookOpen className="w-5 h-5" />,
+    'search': <Search className="w-5 h-5" />,
+    'file-text': <FileText className="w-5 h-5" />,
+    'calculator': <Calculator className="w-5 h-5" />
+  };
+
+  useEffect(() => {
+    loadHonorarios();
+  }, []);
+
+  const loadHonorarios = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      
+      const response = await apiService.get('/honorarios');
+      
+      if (response.success) {
+        setHonorariosData(response);
+      } else {
+        setError('Error al cargar los honorarios');
+      }
+    } catch (err) {
+      console.error('Error loading honorarios:', err);
+      setError('Error de conexión al cargar los honorarios');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -121,22 +77,60 @@ const NomencladorNutricion = () => {
     }).format(amount);
   };
 
-  const filteredData = Object.entries(nomencladorData).filter(([key, section]) => {
+  const filteredData = honorariosData?.categorias.filter(categoria => {
     if (!searchTerm) return true;
     const searchLower = searchTerm.toLowerCase();
-    return section.title.toLowerCase().includes(searchLower) ||
-      section.items.some(item => item.name.toLowerCase().includes(searchLower));
-  });
+    return categoria.nombre.toLowerCase().includes(searchLower) ||
+      categoria.servicios.some(servicio => servicio.nombre.toLowerCase().includes(searchLower));
+  }) || [];
 
-  const toggleSection = (key: string) => {
+  const toggleSection = (categoriaId: number) => {
     setExpandedSections(prev => ({
       ...prev,
-      [key]: !prev[key]
+      [categoriaId]: !prev[categoriaId]
     }));
   };
 
-  // Define the ASMENUT value (replace with the correct value if needed)
-  const asmenutValue = 5000;
+  if (loading) {
+    return (
+      <div className="max-w-6xl min-h-screen p-6 mx-auto bg-gray-50">
+        <div className="flex items-center justify-center h-64">
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 border-b-2 border-blue-600 rounded-full animate-spin"></div>
+            <span className="text-gray-600">Cargando honorarios...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-6xl min-h-screen p-6 mx-auto bg-gray-50">
+        <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
+          <h2 className="text-lg font-semibold text-red-800 mb-2">Error</h2>
+          <p className="text-red-700">{error}</p>
+          <button 
+            onClick={loadHonorarios}
+            className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!honorariosData) {
+    return (
+      <div className="max-w-6xl min-h-screen p-6 mx-auto bg-gray-50">
+        <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <h2 className="text-lg font-semibold text-yellow-800 mb-2">Sin datos</h2>
+          <p className="text-yellow-700">No se encontraron datos de honorarios.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl min-h-screen p-6 mx-auto bg-gray-50">
@@ -146,7 +140,7 @@ const NomencladorNutricion = () => {
           <div className="text-right">
             <p className="text-sm text-gray-600">Junio 2025 - ASN</p>
             <p className="text-lg font-semibold text-blue-600">
-              Valor ASMENUT: {formatCurrency(asmenutValue)}
+              Valor ASMENUT: {formatCurrency(honorariosData.valor_asmenut)}
             </p>
           </div>
         </div>
@@ -165,21 +159,21 @@ const NomencladorNutricion = () => {
         </div>
 
         <div className="grid gap-4">
-          {filteredData.map(([key, section]) => (
-            <div key={key} className="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+          {filteredData.map((categoria) => (
+            <div key={categoria.id} className="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
               <div
                 className="p-4 text-white transition-all duration-200 cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-                onClick={() => toggleSection(key)}
+                onClick={() => toggleSection(categoria.id)}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    {section.icon}
-                    <h2 className="text-lg font-semibold">{section.title}</h2>
+                    {iconMap[categoria.icono] || <Calculator className="w-5 h-5" />}
+                    <h2 className="text-lg font-semibold">{categoria.nombre}</h2>
                   </div>
-                  {expandedSections[key] ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                  {expandedSections[categoria.id] ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                 </div>
               </div>
-              {expandedSections[key] && (
+              {expandedSections[categoria.id] && (
                 <div className="p-4 bg-gray-50">
                   <table className="min-w-full text-sm">
                     <thead>
@@ -187,7 +181,7 @@ const NomencladorNutricion = () => {
                         <th className="px-4 py-2 text-sm font-medium text-left text-gray-700">Servicio</th>
                         <th className="px-4 py-2 text-sm font-medium text-center text-gray-700">Unidades ASMENUT</th>
                         <th className="px-4 py-2 text-sm font-medium text-right text-gray-700">Honorario</th>
-                        {section.items.some(item => 'hourly' in item && item.hourly !== undefined) && (
+                        {categoria.servicios.some(servicio => servicio.monto_por_hora !== undefined) && (
                           <>
                             <th className="px-4 py-2 text-sm font-medium text-right text-gray-700">Por Hora</th>
                             <th className="px-4 py-2 text-sm font-medium text-right text-gray-700">Mensual</th>
@@ -196,20 +190,20 @@ const NomencladorNutricion = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {section.items.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 text-sm text-gray-900">{item.name}</td>
-                          <td className="px-4 py-3 text-sm text-center text-gray-600">{item.units}</td>
+                      {categoria.servicios.map((servicio) => (
+                        <tr key={servicio.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-3 text-sm text-gray-900">{servicio.nombre}</td>
+                          <td className="px-4 py-3 text-sm text-center text-gray-600">{servicio.unidades_asmenut}</td>
                           <td className="px-4 py-3 text-sm font-medium text-right text-gray-900">
-                            {'amount' in item && item.amount ? formatCurrency(item.amount) : ''}
+                            {servicio.monto_fijo ? formatCurrency(servicio.monto_fijo) : formatCurrency(servicio.monto_calculado)}
                           </td>
-                          {'hourly' in item && item.hourly !== undefined && (
+                          {categoria.servicios.some(s => s.monto_por_hora !== undefined) && (
                             <>
                               <td className="px-4 py-3 text-sm text-right text-gray-600">
-                                {formatCurrency(item.hourly)}
+                                {servicio.monto_por_hora ? formatCurrency(servicio.monto_por_hora) : ''}
                               </td>
                               <td className="px-4 py-3 text-sm font-medium text-right text-gray-900">
-                                {item.monthly !== null && item.monthly !== undefined ? formatCurrency(item.monthly) : ''}
+                                {servicio.monto_mensual ? formatCurrency(servicio.monto_mensual) : ''}
                               </td>
                             </>
                           )}

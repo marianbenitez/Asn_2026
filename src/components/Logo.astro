@@ -1,0 +1,61 @@
+---
+interface Props {
+  class?: string;
+  size?: "sm" | "md" | "lg";
+  variant?: "default" | "white";
+}
+
+const { class: className = "", size = "md", variant = "default" } = Astro.props;
+
+const sizeClasses = {
+  sm: "text-2xl",
+  md: "text-4xl",
+  lg: "text-6xl",
+};
+
+const colorClass = variant === "white" ? "text-white" : "text-orange-500";
+const circleColor = variant === "white" ? "#ffffff" : "#ff7b00";
+const gradientClass =
+  variant === "white"
+    ? "bg-gradient-to-r from-white via-gray-200 to-gray-300"
+    : "bg-gradient-to-r from-orange-500 via-purple-500 to-blue-500";
+---
+
+<div class={`flex items-center ${className}`}>
+  <!-- Acrónimo ASN -->
+  <div class="flex items-center">
+    <span class={`font-bold ${colorClass}`}>AS</span>
+    <span class={`font-bold ${colorClass} relative`}>
+      N
+      <!-- Círculos estilizados para la N - versión mejorada -->
+      <svg
+        class="absolute -left-2 top-0 w-4 h-4"
+        viewBox="0 0 16 16"
+        fill="none"
+      >
+        <circle cx="2" cy="2" r="1" fill={circleColor} opacity="0.8"></circle>
+        <circle cx="3" cy="4" r="0.8" fill={circleColor} opacity="0.6"></circle>
+        <circle cx="4" cy="6" r="0.6" fill={circleColor} opacity="0.7"></circle>
+        <circle cx="5" cy="8" r="0.7" fill={circleColor} opacity="0.5"></circle>
+        <circle cx="6" cy="10" r="0.5" fill={circleColor} opacity="0.8"
+        ></circle>
+        <circle cx="7" cy="12" r="0.6" fill={circleColor} opacity="0.6"
+        ></circle>
+      </svg>
+    </span>
+  </div>
+
+  <!-- Texto completo -->
+  <div class={`ml-4 ${colorClass} font-semibold`}>
+    <div class="text-xs uppercase tracking-wide">ASOCIACIÓN</div>
+    <div class="text-xs uppercase tracking-wide">SANJUANINA</div>
+    <div class="text-xs">
+      <span class="lowercase">de</span>
+      <span class="uppercase"> NUTRICIÓN</span>
+    </div>
+  </div>
+
+  <!-- Barra de gradiente -->
+  <div class={`ml-4 w-16 h-1 ${gradientClass} rounded-full`}></div>
+</div>
+

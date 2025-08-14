@@ -1,0 +1,52 @@
+CRITICAL - 2025-07-31 01:08:35 --> Error: Class "Locale" not found
+[Method: GET, Route: /]
+in SYSTEMPATH/CodeIgniter.php on line 189.
+ 1 SYSTEMPATH/Boot.php(350): CodeIgniter\CodeIgniter->initialize()
+ 2 SYSTEMPATH/Boot.php(130): CodeIgniter\Boot::initializeCodeIgniter()
+ 3 ROOTPATH/spark(87): CodeIgniter\Boot::bootSpark()
+CRITICAL - 2025-07-31 01:08:35 --> ErrorException: Uncaught Error: Class "Locale" not found in /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/I18n/TimeTrait.php:76
+Stack trace:
+#0 /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/I18n/TimeTrait.php(117): CodeIgniter\I18n\Time->__construct()
+#1 /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/HTTP/ResponseTrait.php(398): CodeIgniter\I18n\Time::now()
+#2 /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/HTTP/ResponseTrait.php(376): CodeIgniter\HTTP\Response->sendHeaders()
+#3 /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\HTTP\Response->send()
+#4 /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown
+【Previous Exception】
+Error
+Class "Locale" not found
+#0 /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/Boot.php(350): CodeIgniter\CodeIgniter->initialize()
+#1 /mnt/c/laragon/www/Asociacion/Back_asn/vendor/codeigniter4/framework/system/Boot.php(130): CodeIgniter\Boot::initializeCodeIgniter()
+#2 /mnt/c/laragon/www/Asociacion/Back_asn/spark(87): CodeIgniter\Boot::bootSpark()
+#3 {main}
+[Method: GET, Route: /]
+in SYSTEMPATH/I18n/TimeTrait.php on line 76.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-31 02:07:16 --> TypeError: CodeIgniter\Database\BaseBuilder::limit(): Argument #1 ($value) must be of type ?int, string given, called in C:\laragon\www\Asociacion\Back_asn\vendor\codeigniter4\framework\system\Model.php on line 925
+[Method: GET, Route: api/news/featured]
+in SYSTEMPATH\Database\BaseBuilder.php on line 1514.
+ 1 SYSTEMPATH\Model.php(925): CodeIgniter\Database\BaseBuilder->limit('3')
+ 2 APPPATH\Models\NewsModel.php(128): CodeIgniter\Model->__call('limit', [...])
+ 3 APPPATH\Controllers\Api\NewsController.php(58): App\Models\NewsModel->getFeaturedNews('3')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\NewsController->featured()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\NewsController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\Asociacion\\Back_asn\\public\\index.php')
+CRITICAL - 2025-07-31 02:07:16 --> TypeError: CodeIgniter\Database\BaseBuilder::limit(): Argument #1 ($value) must be of type ?int, string given, called in C:\laragon\www\Asociacion\Back_asn\vendor\codeigniter4\framework\system\Model.php on line 925
+[Method: GET, Route: api/news]
+in SYSTEMPATH\Database\BaseBuilder.php on line 1514.
+ 1 SYSTEMPATH\Model.php(925): CodeIgniter\Database\BaseBuilder->limit('9', 0)
+ 2 APPPATH\Models\NewsModel.php(164): CodeIgniter\Model->__call('limit', [...])
+ 3 APPPATH\Controllers\Api\NewsController.php(32): App\Models\NewsModel->getNewsWithPagination('9', 0, null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\NewsController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\NewsController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\laragon\\www\\Asociacion\\Back_asn\\public\\index.php')

@@ -1,0 +1,25 @@
+import { c as createComponent, r as renderComponent, b as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_9gGvyqx6.mjs';
+import 'kleur/colors';
+import 'html-escaper';
+import { $ as $$Layout } from '../chunks/Layout_MCrPTZ-u.mjs';
+export { renderers } from '../renderers.mjs';
+
+const $$PagoCuota = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Pago de la Cuota - Asociaci\xF3n Sanjuanina de Nutrici\xF3n" }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="max-w-4xl mx-auto"> <h1 class="text-4xl font-bold mb-6 text-center" style="color: #ff7b00;">Pago de la Cuota</h1> <div class="bg-white rounded-lg shadow-md p-8 border-l-4 mb-8" style="border-left-color: #ff7b00;"> <p class="text-gray-700 mb-6 text-lg">
+Aquí encontrarás la información necesaria para realizar el pago de tu cuota de socio.
+</p> <div class="bg-orange-50 p-6 rounded-lg border" style="border-color: #ff7b00;"> <h2 class="text-2xl font-bold mb-4" style="color: #ff7b00;">Información Bancaria</h2> <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> <div> <p class="text-gray-700"><strong>Banco:</strong> Banco San Juan</p> <p class="text-gray-700"><strong>CBU:</strong> 1234567890123456789012</p> <p class="text-gray-700"><strong>Alias:</strong> ASOCIACION.NUTRICION.SJ</p> </div> <div> <p class="text-gray-700"><strong>Cuota Mensual:</strong> $8.000</p> <p class="text-gray-700"><strong>Cuota de Ingreso:</strong> $15.000</p> </div> </div> </div> </div> <div class="bg-white rounded-lg shadow-md p-8 border-l-4" style="border-left-color: #ff7b00;"> <h3 class="text-xl font-bold mb-4" style="color: #ff7b00;">Instrucciones de Pago</h3> <ol class="list-decimal list-inside space-y-2 text-gray-700"> <li>Realiza la transferencia bancaria con los datos proporcionados</li> <li>En el concepto, incluye tu número de socio y el mes correspondiente</li> <li>Envía el comprobante de pago a nuestro email</li> <li>Recibirás confirmación en un plazo de 24-48 horas</li> </ol> </div> </div> ` })}`;
+}, "C:/laragon/www/Asociacion/Front_asn/src/pages/pago-cuota.astro", void 0);
+
+const $$file = "C:/laragon/www/Asociacion/Front_asn/src/pages/pago-cuota.astro";
+const $$url = "/pago-cuota";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$PagoCuota,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };
